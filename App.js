@@ -1,6 +1,14 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Button,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  ScrollView,
+  FlatList,
+} from "react-native";
 
 export default function App() {
   const [enteredGoal, setEnteredGoal] = useState("");
@@ -9,7 +17,10 @@ export default function App() {
     setEnteredGoal(enteredText);
   };
   const addGoal = () => {
-    setCourseGoals([...courseGoals, enteredGoal]);
+    setCourseGoals([
+      ...courseGoals,
+      { key: new Date().getDate().toString(), value: enteredGoal },
+    ]);
     setEnteredGoal("");
   };
   return (
@@ -34,11 +45,14 @@ export default function App() {
         />
         <Button title="ADD" onPress={addGoal} />
       </View>
-      <View>
-        {courseGoals.map((goal) => {
-          return <Text>{goal}</Text>;
-        })}
-      </View>
+      <FlatList
+        data={courseGoals}
+        renderItem={(itemData) => {
+          <View style={styles.listITem}>
+            <Text>{itemData.item}</Text>
+          </View>;
+        }}
+      />
     </View>
   );
 }
@@ -50,12 +64,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  title: {
-    textAlign: "center",
-    marginVertical: 8,
-  },
-  fixToText: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  listITem: {
+    padding: 10,
+    backgroundColor: "#ccc",
+    borderColor: "black",
+    borderWidth: 1,
+    padding: 10,
+    marginBottom: 15,
   },
 });
