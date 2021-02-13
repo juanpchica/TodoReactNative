@@ -8,51 +8,25 @@ import {
   FlatList,
   SafeAreaView,
 } from "react-native";
+import { GoalInput } from "./components/GoalInput";
+import { GoalItems } from "./components/GoalItems";
 
 export default function App() {
-  const [enteredGoal, setEnteredGoal] = useState("");
   const [courseGoals, setCourseGoals] = useState([]);
-  const goalInputHandler = (enteredText) => {
-    setEnteredGoal(enteredText);
-  };
-  const addGoal = () => {
+
+  const addGoal = (goal) => {
     setCourseGoals([
       ...courseGoals,
-      { key: new Date().getDate().toString(), value: enteredGoal },
+      { key: new Date().getDate().toString(), value: goal },
     ]);
-    setEnteredGoal("");
   };
 
   const renderItem = ({ item }) => {
-    return (
-      <View style={styles.listITem}>
-        <Text>{item.value}</Text>
-      </View>
-    );
+    return <GoalItems item={item} />;
   };
   return (
     <View style={{ padding: 30 }}>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <TextInput
-          placeholder="Course Goal"
-          style={{
-            borderColor: "black",
-            borderWidth: 1,
-            padding: 10,
-            width: "80%",
-          }}
-          onChangeText={goalInputHandler}
-          value={enteredGoal}
-        />
-        <Button title="ADD" onPress={addGoal} />
-      </View>
-
+      <GoalInput addGoal={addGoal} />
       <FlatList data={courseGoals} renderItem={renderItem} />
     </View>
   );
@@ -64,13 +38,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-  },
-  listITem: {
-    padding: 10,
-    backgroundColor: "#ccc",
-    borderColor: "black",
-    borderWidth: 1,
-    padding: 10,
-    marginBottom: 15,
   },
 });
