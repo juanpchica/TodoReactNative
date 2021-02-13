@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import {
   Button,
@@ -6,10 +5,9 @@ import {
   Text,
   TextInput,
   View,
-  ScrollView,
   FlatList,
+  SafeAreaView,
 } from "react-native";
-import { Camera } from "expo-camera";
 
 export default function App() {
   const [enteredGoal, setEnteredGoal] = useState("");
@@ -25,19 +23,13 @@ export default function App() {
     setEnteredGoal("");
   };
 
-  useEffect(() => {
-    (async () => {
-      const { status } = await Camera.requestPermissionsAsync();
-      setHasPermission(status === "granted");
-    })();
-  }, []);
-
-  if (hasPermission === null) {
-    return <View />;
-  }
-  if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
-  }
+  const renderItem = ({ item }) => {
+    return (
+      <View style={styles.listITem}>
+        <Text>{item.value}</Text>
+      </View>
+    );
+  };
   return (
     <View style={{ padding: 30 }}>
       <View
@@ -60,33 +52,8 @@ export default function App() {
         />
         <Button title="ADD" onPress={addGoal} />
       </View>
-      <FlatList
-        data={courseGoals}
-        renderItem={(itemData) => {
-          <View style={styles.listITem}>
-            <Text>{itemData.item}</Text>
-          </View>;
-        }}
-      />
 
-      <View style={styles.container}>
-        <Camera style={styles.camera} type={type}>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                setType(
-                  type === Camera.Constants.Type.back
-                    ? Camera.Constants.Type.front
-                    : Camera.Constants.Type.back
-                );
-              }}
-            >
-              <Text style={styles.text}> Flip </Text>
-            </TouchableOpacity>
-          </View>
-        </Camera>
-      </View>
+      <FlatList data={courseGoals} renderItem={renderItem} />
     </View>
   );
 }
