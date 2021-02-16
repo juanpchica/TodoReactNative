@@ -14,9 +14,8 @@ export default function App() {
   };
 
   const onDelete = (idItem) => {
-    setCourseGoals((courseGoals) => {
-      const newGoals = courseGoals.filter((goal) => goal.id !== idItem);
-      return [...courseGoals, newGoals];
+    setCourseGoals((currentGoals) => {
+      return currentGoals.filter((goal) => goal.id !== idItem);
     });
   };
 
