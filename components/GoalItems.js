@@ -4,7 +4,7 @@ import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 export const GoalItems = (props) => {
   const item = props.item;
   return (
-    <TouchableOpacity onPress={() => props.onDelete(item.key)} key={item.key}>
+    <TouchableOpacity onPress={() => props.onDelete(item.id)} key={item.id}>
       <View style={styles.listITem}>
         <Text>{item.value}</Text>
       </View>

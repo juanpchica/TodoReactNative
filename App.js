@@ -9,13 +9,13 @@ export default function App() {
   const addGoal = (goal) => {
     setCourseGoals([
       ...courseGoals,
-      { key: new Date().getTime().toString(), value: goal },
+      { id: Math.random().toString(), value: goal },
     ]);
   };
 
-  const onDelete = (key) => {
+  const onDelete = (idItem) => {
     setCourseGoals((courseGoals) => {
-      const newGoals = courseGoals.filter((goal) => goal.key !== key);
+      const newGoals = courseGoals.filter((goal) => goal.id !== idItem);
       return [...courseGoals, newGoals];
     });
   };
